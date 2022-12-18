@@ -8,8 +8,10 @@ dx = [1, -1, 0, 0]
 dy = [0, 0, -1, 1]
 
 def bfs():
+    cnt = 0
     while q:
-        ox, oy, tx, ty, cnt = q.popleft()
+        ox, oy, tx, ty = q.popleft()
+        cnt += 1
         if cnt > 10:
             return -1
         for i in range(4):
@@ -21,7 +23,7 @@ def bfs():
                     onx, ony = ox, oy
                 if field[tnx][tny] == "#":
                     tnx, tny = tx, ty
-                q.append((onx, ony, tnx, tny, cnt+1))
+                q.append((onx, ony, tnx, tny))
             #둘 다 떨어질 때
             elif (not 0 <= onx < n or not 0 <= ony < m) and (not 0 <= tnx < n or not 0 <= tny < m):
                 continue
@@ -45,5 +47,5 @@ for i in range(n):
             else:
                 tx, ty = i, j
                 break
-q = deque([(ox, oy, tx, ty, 1)])
+q = deque([(ox, oy, tx, ty)])
 print(bfs())
