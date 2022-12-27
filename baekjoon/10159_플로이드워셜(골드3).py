@@ -15,12 +15,11 @@ for _ in range(m):
 
 #플로이드워셜 i->j & j->k = i->k
 #가장 바깥쪽 for문은 경유할 정점,가운데 for문은 출발 정점,가장 안쪽 for문은 도착 정점***
-for k in range(n):
+for j in range(n):
     for i in range(n):
-        for j in range(n):
+        for k in range(n):
             if graph[i][j] and graph[j][k]:
                 graph[i][k] = 1
-                print(i, k)
 
 for i in range(n):
     cnt = 0
