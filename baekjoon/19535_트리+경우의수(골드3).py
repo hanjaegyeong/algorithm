@@ -20,7 +20,7 @@ for u, v in tree:
 # ㅈ: 2번째 노드 잡고 nC3 경우의수
 for i in range(1, n+1):
     if degree[i] >= 3:
-        jcnt += (degree[i] * (degree[i]-1) * (degree[i]-2)) / 6 #nC3***
+        jcnt += (degree[i] * (degree[i]-1) * (degree[i]-2)) / 6 # nC3***
 
 if dcnt > 3 * jcnt:
     print("D")
