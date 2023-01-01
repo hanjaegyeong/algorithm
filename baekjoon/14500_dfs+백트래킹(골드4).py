@@ -1,4 +1,4 @@
-#14500_dfs(골드4)
+#14500_dfs+백트래킹(골드4)
 #ㅏ, ㅗ 모양 처리하기 주의
 import sys
 sys.setrecursionlimit(10**8)
