@@ -4,31 +4,30 @@ import sys
 sys.setrecursionlimit(10**9)
 dxdy = [(1,0), (-1,0), (0,1), (0,-1)]
 
-def check_edge(x, y): #간선 채우기 bfs
+#간선 채우기 bfs
+def check_edge(x, y):
     global nothing
     for i in dxdy:
         nx, ny = x + i[0], y + i[1]
         if 0 <= nx < n and 0 <= ny < m and matrix[nx][ny] == 0:
             edges[node_num[x][y]][node_num[nx][ny]] = 1
-            nothing = 0
             #i에서 j인덱스 가는 간선 있음
 
-def dfs(now):   #오일러서킷 dfs
+#오일러서킷 dfs
+def euler_dfs(now):
     for i in graph[now]:
         if edges[now][i]:
             edges[now][i]-=1
             edges[i][now]-=1
-            dfs(i)
+            euler_dfs(i)
     return(1)
 
 t = int(input())
-
 for _ in range(t):
-    nothing, zeros = 1, 0
     isover = 0
     m, n = map(int, input().split())
-    matrix, node_num, edges = [], [], list([0] * (n*m) for _ in range(n*m))
-    
+    matrix, graph, node_num, edges = [], {}, [], list([0] * (n*m) for _ in range(n*m))
+
     for i in range(n):
         nums = []
         for j in range(m):
@@ -42,10 +41,6 @@ for _ in range(t):
         for j in range(m):
             if matrix[i][j] == 0:
                 check_edge(i, j)
-                ansindex = node_num[i][j]
-                zeros += 1
-
-    graph={}
     
     for i in range(n*m):
         graph[i]=[]
@@ -54,11 +49,11 @@ for _ in range(t):
             for k in range(edges[i][j]):
                 rowSum+=1
                 graph[i].append(j)
-        if rowSum%2==1:
-            isover = 1
+        if rowSum%2==1: #연결 간선 2의 배수 아니면
+            isover = 1 #탈락
 
     if isover == 1:
         print(0)
         continue
 
-    print(dfs(0))
+    print(euler_dfs(0))
