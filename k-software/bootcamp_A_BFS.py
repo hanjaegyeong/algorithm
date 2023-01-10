@@ -1,4 +1,4 @@
-#A번 BFS풀이
+#A번 BFS풀이 
 from collections import deque
 
 def bfs(x):
