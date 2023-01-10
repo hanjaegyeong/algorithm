@@ -9,15 +9,15 @@ import copy
 sys.setrecursionlimit(10**8)
 
 # 현재보다 크거나 같으면 넣기
-def dfs(now, cnt, least_tile): #현재타일(가로,세로), cnt, 남은타일들
+def dfs(now, cnt, left_tiles): #현재타일(가로,세로), cnt, 남은타일들
     global ans
-    tmptiles = copy.deepcopy(least_tile)
+    tmptiles = copy.deepcopy(left_tiles)
     ans = max(ans, cnt)
-    for i in range(len(least_tile)):
-        if least_tile[i][0] >= now[0] and least_tile[i][1] >= now[1]:
+    for i in range(len(left_tiles)):
+        if left_tiles[i][0] >= now[0] and left_tiles[i][1] >= now[1]:
             tmptiles.pop(i)
-            dfs(least_tile[i], cnt+1, tmptiles) #넣은 경우
-            tmptiles = copy.deepcopy(least_tile) #안넣은 경우
+            dfs(left_tiles[i], cnt+1, tmptiles) #넣은 경우
+            tmptiles = copy.deepcopy(left_tiles) #안넣은 경우
 
 t = int(input())
 for _ in range(t):
