@@ -42,6 +42,8 @@ for _ in range(t):
             if matrix[i][j] == 0:
                 check_edge(i, j)
     
+    #node_num, edges빼고 바로 graph 뽑아내기
+
     for i in range(n*m):
         graph[i]=[]
         rowSum=0
