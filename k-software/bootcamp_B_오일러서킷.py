@@ -1,61 +1,46 @@
-#dfs_오일러서킷(한붓그리기)
+# bfs+오일러서킷(한붓그리기)
+# 모든 노드의 연결 간선 수가 2의 배수개여야 함
+# 덩어리 2개 이상이면 탈락
 
-import sys
-sys.setrecursionlimit(10**9)
+from collections import deque
 dxdy = [(1,0), (-1,0), (0,1), (0,-1)]
 
-#간선 채우기 bfs
-def check_edge(x, y):
-    global nothing
-    for i in dxdy:
-        nx, ny = x + i[0], y + i[1]
-        if 0 <= nx < n and 0 <= ny < m and matrix[nx][ny] == 0:
-            edges[node_num[x][y]][node_num[nx][ny]] = 1
-            #i에서 j인덱스 가는 간선 있음
-
-#오일러서킷 dfs
-def euler_dfs(now):
-    for i in graph[now]:
-        if edges[now][i]:
-            edges[now][i]-=1
-            edges[i][now]-=1
-            euler_dfs(i)
-    return(1)
+# 오일러 체크 bfs
+def check_euler(sx, sy):
+    global result
+    q = deque()
+    q.append([sx, sy])
+    visited[sx][sy] = 1    
+    while q:
+        x, y = q.popleft()
+        for i in dxdy:
+            cnt = 0
+            nx, ny = x + i[0], y + i[1]
+            if 0 <= nx < n and 0 <= ny < m and graph[nx][ny] == 0 and not visited[nx][ny]:
+                visited[nx][ny] = 1
+                q.append([nx, ny])
+                cnt += 1
+        if cnt % 2 == 1: # 연결 간선 수 2의 배수 아니면
+            result = 0 # 탈락
 
 t = int(input())
 for _ in range(t):
-    isover = 0
     m, n = map(int, input().split())
-    matrix, graph, node_num, edges = [], {}, [], list([0] * (n*m) for _ in range(n*m))
-
-    for i in range(n):
-        nums = []
-        for j in range(m):
-            nums.append(i*m + j)
-        node_num.append(nums)
-    
+    graph = []
     for _ in range(n):
-        matrix.append(list(map(int, input().split())))
-    
+        graph.append(list(map(int, input().split())))
+
+    result, mung_cnt = 1, 0
+    visited = list([0] * m for _ in range(n))
+
+    # 오일러 체크
     for i in range(n):
         for j in range(m):
-            if matrix[i][j] == 0:
-                check_edge(i, j)
+            if graph[i][j] == 0 and not visited[i][j]:
+                check_euler(i, j)
+                mung_cnt += 1
     
-    #node_num, edges빼고 바로 graph 뽑아내기
+    if mung_cnt >= 2: # 덩어리 두 개 이상이면
+        result = 0 # 탈락
 
-    for i in range(n*m):
-        graph[i]=[]
-        rowSum=0
-        for j in range(n*m):
-            for k in range(edges[i][j]):
-                rowSum+=1
-                graph[i].append(j)
-        if rowSum%2==1: #연결 간선 2의 배수 아니면
-            isover = 1 #탈락
-
-    if isover == 1:
-        print(0)
-        continue
-
-    print(euler_dfs(0))
+    print(result)
