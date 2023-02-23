@@ -6,7 +6,6 @@ input = sys.stdin.readline
 t = int(input())
 for _ in range(t):
     ans = 0
-    result = []
     n, m = map(int, input().split()) #n: 기업 수, m: 관계 수
     graph = list([0] * (n+1) for _ in range(n+1))
     for _ in range(m):
